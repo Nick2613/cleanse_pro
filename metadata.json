@@ -1,0 +1,5 @@
+{
+  "name": "DataCleanse Pro",
+  "description": "An intelligent Excel data processor that deduplicates phone numbers within sheets and enforces historical frequency limits across datasets, powered by local processing and AI insights.",
+  "requestFramePermissions": []
+}

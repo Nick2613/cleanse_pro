@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataCleanse Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <!-- Babel for in-browser TSX compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Polyfill process.env and API_KEY location
+      // REPLACE 'YOUR_API_KEY_HERE' WITH YOUR ACTUAL GEMINI API KEY
+      window.process = window.process || { 
+        env: { 
+          NODE_ENV: 'production',
+          API_KEY: '' 
+        } 
+      };
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "recharts": "https://esm.sh/recharts@2.12.0?external=react,react-dom",
+    "@google/genai": "https://esm.sh/@google/genai@0.1.1",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0?external=react",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+</head>
+  <body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
+    <!-- Note: type="text/babel" and data-type="module" are required for Babel + Imports -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
+  </body>
+</html>
