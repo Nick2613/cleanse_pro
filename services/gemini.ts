@@ -3,7 +3,6 @@ import { ProcessingStats } from "../types";
 
 export const generateAnalysisReport = async (stats: ProcessingStats): Promise<string> => {
   // Safe check for API key availability via window polyfill
-  // We cast to any to avoid TypeScript errors regarding 'process' not being defined globally in client-side config
   const apiKey = (window as any).process?.env?.API_KEY;
 
   if (!apiKey) {

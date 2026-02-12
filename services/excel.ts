@@ -1,4 +1,4 @@
-import { CellAddress, ProcessingStats } from '../types';
+import { ProcessingStats } from '../types';
 import { getBatchCounts, incrementPhoneNumberCounts } from './db';
 import * as XLSX from 'xlsx';
 
@@ -24,7 +24,6 @@ export const processExcelFile = async (
   let totalNumbers = 0;
 
   const seenInThisSheet = new Set<string>();
-  const validNumbersToPersist: string[] = [];
   const cellsToCheck: { r: number; c: number; val: string }[] = [];
 
   onProgress("Scanning for intra-sheet duplicates...");
@@ -36,9 +35,7 @@ export const processExcelFile = async (
     for (let c = 0; c < row.length; c++) {
       const cellVal = String(row[c]).trim();
       
-      // Basic cleaning: remove spaces, dashes? 
-      // Assuming strict matching for now, but usually phone numbers need normalization.
-      // Let's do basic normalization: remove non-digits.
+      // Basic cleaning: remove non-digits.
       const rawPhone = cellVal.replace(/\D/g, ''); 
 
       if (rawPhone.length > 0) { // Only process if it looks like a number
@@ -63,11 +60,9 @@ export const processExcelFile = async (
 
   // 3. Rule 2: Frequency control across history
   // We need to check the DB for all 'cellsToCheck'.
-  // To optimize, we batch query.
   const uniqueNumbersToCheck = Array.from(new Set(cellsToCheck.map(item => item.val)));
   
-  // Since IDB is async, fetching one by one is slow. We use a batch helper.
-  // Note: For very large datasets, we might chunk this.
+  // Chunking for batch DB access
   const CHUNK_SIZE = 500;
   const historyCounts = new Map<string, number>();
   
@@ -83,14 +78,9 @@ export const processExcelFile = async (
   for (const cell of cellsToCheck) {
     const historicalCount = historyCounts.get(cell.val) || 0;
     
-    // Rule: "If a phone number appears more than 2 times in total history... Only allow numbers whose total occurrence count is 1 or 2"
-    // Interpretation: If current history is 0, new total is 1 (Allowed).
-    // If current history is 1, new total is 2 (Allowed).
-    // If current history is >= 2, new total is > 2 (Disallowed).
-    
+    // Rule: Allow numbers whose total occurrence count is 1 or 2
     if (historicalCount >= 2) {
-      // Rule 2 Violation
-      // Clear cell
+      // Rule 2 Violation (would become 3rd time or more)
       rawData[cell.r][cell.c] = ""; 
       historicalDuplicates++;
     } else {
@@ -102,8 +92,6 @@ export const processExcelFile = async (
 
   // 4. Update History
   onProgress("Updating historical records...");
-  // We only increment valid numbers.
-  // Chunk the writes as well if necessary
   for (let i = 0; i < numbersToIncrement.length; i += CHUNK_SIZE) {
     const chunk = numbersToIncrement.slice(i, i + CHUNK_SIZE);
     await incrementPhoneNumberCounts(chunk);
