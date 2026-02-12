@@ -8,13 +8,13 @@ import {
   RotateCcw,
   CheckCircle2
 } from 'lucide-react';
-import { FileUpload } from './components/FileUpload.tsx';
-import { StatsCard } from './components/StatsCard.tsx';
-import { AnalysisView } from './components/AnalysisView.tsx';
-import { processExcelFile, downloadExcel } from './services/excel.ts';
-import { clearHistory } from './services/db.ts';
-import { generateAnalysisReport } from './services/gemini.ts';
-import { AppState, ProcessingStats } from './types.ts';
+import { FileUpload } from './components/FileUpload';
+import { StatsCard } from './components/StatsCard';
+import { AnalysisView } from './components/AnalysisView';
+import { processExcelFile, downloadExcel } from './services/excel';
+import { clearHistory } from './services/db';
+import { generateAnalysisReport } from './services/gemini';
+import { AppState, ProcessingStats } from './types';
 
 function App() {
   const [appState, setAppState] = useState<AppState>(AppState.IDLE);

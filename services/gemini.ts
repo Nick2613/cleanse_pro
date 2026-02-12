@@ -1,9 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
-import { ProcessingStats } from "../types.ts";
+import { ProcessingStats } from "../types";
 
 export const generateAnalysisReport = async (stats: ProcessingStats): Promise<string> => {
-  // Safe check for API key availability
-  const apiKey = typeof process !== 'undefined' ? process.env?.API_KEY : undefined;
+  // Safe check for API key availability via window polyfill
+  // We cast to any to avoid TypeScript errors regarding 'process'
+  const apiKey = (window as any).process?.env?.API_KEY;
 
   if (!apiKey) {
     console.warn("No API_KEY found for Gemini.");

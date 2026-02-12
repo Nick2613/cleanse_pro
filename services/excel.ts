@@ -1,5 +1,5 @@
-import { CellAddress, ProcessingStats } from '../types.ts';
-import { getBatchCounts, incrementPhoneNumberCounts } from './db.ts';
+import { CellAddress, ProcessingStats } from '../types';
+import { getBatchCounts, incrementPhoneNumberCounts } from './db';
 import * as XLSX from 'xlsx';
 
 export const processExcelFile = async (

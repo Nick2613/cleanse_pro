@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Upload, FileSpreadsheet, Loader2 } from 'lucide-react';
-import { AppState } from '../types.ts';
+import { AppState } from '../types';
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;

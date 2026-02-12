@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { Bot, Sparkles, AlertTriangle, FileCheck } from 'lucide-react';
-import { ProcessingStats } from '../types.ts';
+import { ProcessingStats } from '../types';
 
 interface AnalysisViewProps {
   stats: ProcessingStats;
