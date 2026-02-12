@@ -1,8 +1,6 @@
 import { CellAddress, ProcessingStats } from '../types.ts';
 import { getBatchCounts, incrementPhoneNumberCounts } from './db.ts';
-
-// Access the global XLSX object loaded via CDN
-const XLSX = (window as any).XLSX;
+import * as XLSX from 'xlsx';
 
 export const processExcelFile = async (
   file: File, 
